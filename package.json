@@ -11,7 +11,8 @@
   },
   "scripts": {
     "start": "webpack && node ./lib/bundle.js",
-    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "compile": "rm -rf lib && babel d lib/ src/",
+    "prepublish": "npm run compile",
     "test": "./node_modules/mocha/bin/_mocha --compilers js:babel-core/register ./src/tests/test",
     "test-unit": "./node_modules/mocha/bin/_mocha --compilers js:babel-core/register ./src/tests/unit",
     "test-integration": "./node_modules/mocha/bin/_mocha --compilers js:babel-core/register ./src/tests/integration",
