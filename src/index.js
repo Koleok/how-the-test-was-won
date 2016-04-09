@@ -35,6 +35,14 @@ export const shouldBeAnObject = primitiveEquals('object')
 export const shouldBeAnArray = primitiveEquals('array')
 
 /**
+ * Accepts any value and asserts whether or not it is a string
+ *
+ * @param  {*} val a value of any type
+ * @return {undefined}
+ */
+export const shouldBeAString = primitiveEquals('string')
+
+/**
  * Accepts any value and asserts whether or not it is a number
  *
  * @param  {*} val a value of any type
