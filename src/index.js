@@ -1,12 +1,61 @@
-import chai, { expect } from 'chai';
-import asPromised from 'chai-as-promised';
-chai.use(asPromised);
+import { curry } from 'ramda'
+import chai, { expect } from 'chai'
+import asPromised from 'chai-as-promised'
+chai.use(asPromised)
+
+/**
+ * Curryable function to reduce boilerplate in other type checkers
+ *
+ * @param  {String} type  primitive type to check for
+ * @param  {*}      val   value of any type
+ * @return {undefined}
+ */
+const primitiveEquals = curry(
+  (type, val) => {
+    it(`should be an ${type}`, () => {
+      expect(val).to.be.an(type)
+    })
+  }
+)
+
+/**
+ * Accepts any value and asserts whether or not it is an object
+ *
+ * @param  {*} val a value of any type
+ * @return {undefined}
+ */
+export const shouldBeAnObject = primitiveEquals('object')
+
+/**
+ * Accepts any value and asserts whether or not it is an array
+ *
+ * @param  {*} val a value of any type
+ * @return {undefined}
+ */
+export const shouldBeAnArray = primitiveEquals('array')
+
+/**
+ * Accepts any value and asserts whether or not it is a number
+ *
+ * @param  {*} val a value of any type
+ * @return {undefined}
+ */
+export const shouldBeANumber = primitiveEquals('number')
+
+/**
+ * Accepts any value and asserts whether or not it is an error
+ *
+ * @param  {*} val a value of any type
+ * @return {undefined}
+ */
+export const shouldBeAnError = primitiveEquals('error')
 
 /**
  * Creates a test with assertions to check for null, undefined, and empty values
  *
  * @param  {*}        val   value under test
  * @param  {Boolean}  async `optional` pass true if testing a promise resolution
+ * @return {undefined}
  */
 export function testIfExists(val, async) {
   describe('should not return a falsey value', () => {
@@ -42,6 +91,7 @@ export function testIfExists(val, async) {
  *
  * @param  {Array}    [description, testVal, expected]  destuctured respectively
  * @param  {Function} func                              function under test
+ * @return {undefined}
  */
 export function testSet([description, testVal, expected], func) {
   describe(description, () => {
