@@ -18,45 +18,12 @@ const primitiveEquals = curry(
   }
 )
 
-/**
- * Accepts any value and asserts whether or not it is an object
- *
- * @param  {*} val a value of any type
- * @return {undefined}
- */
 export const shouldBeAnObject = primitiveEquals('object')
-
-/**
- * Accepts any value and asserts whether or not it is an array
- *
- * @param  {*} val a value of any type
- * @return {undefined}
- */
 export const shouldBeAnArray = primitiveEquals('array')
-
-/**
- * Accepts any value and asserts whether or not it is a string
- *
- * @param  {*} val a value of any type
- * @return {undefined}
- */
 export const shouldBeAString = primitiveEquals('string')
-
-/**
- * Accepts any value and asserts whether or not it is a number
- *
- * @param  {*} val a value of any type
- * @return {undefined}
- */
 export const shouldBeANumber = primitiveEquals('number')
-
-/**
- * Accepts any value and asserts whether or not it is an error
- *
- * @param  {*} val a value of any type
- * @return {undefined}
- */
 export const shouldBeAnError = primitiveEquals('error')
+export const shouldBeAFunction = primitiveEquals('function')
 
 /**
  * Creates a test with assertions to check for null, undefined, and empty values
@@ -83,7 +50,7 @@ export function testIfExists(val, async) {
       }
     })
 
-    it('not an empty object / array', () => {
+    it('not an empty object or array', () => {
       if (async) {
         expect(val).to.eventually.not.be.empty
       } else {
