@@ -4,7 +4,7 @@ import asPromised from 'chai-as-promised'
 chai.use(asPromised)
 
 /**
- * Curryable function to reduce boilerplate in other type checkers
+ * Curryable function to check primitive equality
  *
  * @param  {String} type  primitive type to check for
  * @param  {*}      val   value of any type
@@ -13,8 +13,7 @@ chai.use(asPromised)
 const primitiveEquals = curry(
   (type, val) => {
     it(`should be an ${type}`, () => {
-      expect(val)
-        .to.be.an(type)
+      expect(val).to.be.an(type)
     })
   }
 )
@@ -27,6 +26,34 @@ export const shouldBeAnError = primitiveEquals('error')
 export const shouldBeAFunction = primitiveEquals('function')
 
 /**
+ * Curryable function to check that val is not of a given falsey type
+ *
+ * @param  {String}   falseyType  a supported mocha functinon of `not.be...`
+ * @param  {*}        value under test
+ * @return {undefined}
+ */
+const shouldNotBe = curry(
+  (falseyType, isPromise, val) => {
+    it(`should not be ${falseyType}`, () => {
+      if (isPromise) {
+        expect(val).to.eventually.not.be[falseyType]
+
+      } else {
+        expect(val).to.not.be[falseyType]
+      }
+    })
+  }
+)
+
+export const shouldNotBeUndefined = shouldNotBe('undefined', false)
+export const shouldNotBeNull = shouldNotBe('null', false)
+export const shouldNotBeEmpty = shouldNotBe('empty', false)
+
+export const shouldNotBeUndefinedAsync = shouldNotBe('undefined', true)
+export const shouldNotBeNullAsync = shouldNotBe('null', true)
+export const shouldNotBeEmptyAsync = shouldNotBe('empty', true)
+
+/**
  * Creates a test with assertions to check for null, undefined, and empty values
  *
  * @param  {*}        val   value under test
@@ -34,35 +61,15 @@ export const shouldBeAFunction = primitiveEquals('function')
  * @return {undefined}
  */
 export function testIfExists(val, async) {
-  it('should not be null', () => {
     if (async) {
-      expect(val)
-        .to.eventually.not.be.null
+      shouldNotBeNullAsync(val)
+      shouldNotBeUndefinedAsync(val)
+      shouldNotBeEmptyAsync(val)
     } else {
-      expect(val)
-        .to.not.be.null
+      shouldNotBeNull(val)
+      shouldNotBeUndefined(val)
+      shouldNotBeEmpty(val)
     }
-  })
-
-  it('should not be undefined', () => {
-    if (async) {
-      expect(val)
-        .to.eventually.not.be.undefined
-    } else {
-      expect(val)
-        .to.not.be.undefined
-    }
-  })
-
-  it('should not be an empty object or array', () => {
-    if (async) {
-      expect(val)
-        .to.eventually.not.be.empty
-    } else {
-      expect(val)
-        .to.not.be.empty
-    }
-  })
 }
 
 /**
