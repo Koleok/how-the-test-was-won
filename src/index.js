@@ -18,13 +18,6 @@ const primitiveEquals = curry(
   }
 )
 
-export const shouldBeAnObject = primitiveEquals('object')
-export const shouldBeAnArray = primitiveEquals('array')
-export const shouldBeAString = primitiveEquals('string')
-export const shouldBeANumber = primitiveEquals('number')
-export const shouldBeAnError = primitiveEquals('error')
-export const shouldBeAFunction = primitiveEquals('function')
-
 /**
  * Curryable function to check that val is not of a given falsey type
  *
@@ -44,6 +37,14 @@ const shouldNotBe = curry(
     })
   }
 )
+
+export const shouldBeAnObject = primitiveEquals('object')
+export const shouldBeAnArray = primitiveEquals('array')
+export const shouldBeABoolean = primitiveEquals('boolean')
+export const shouldBeAString = primitiveEquals('string')
+export const shouldBeANumber = primitiveEquals('number')
+export const shouldBeAnError = primitiveEquals('error')
+export const shouldBeAFunction = primitiveEquals('function')
 
 export const shouldNotBeUndefined = shouldNotBe('undefined', false)
 export const shouldNotBeNull = shouldNotBe('null', false)
