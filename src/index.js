@@ -93,7 +93,7 @@ const invoke = (func, val) => () => func(val);
  * @param  {Error}    err   error type like 'RefereceError' or 'TypeError'
  * @return {undefined}
  */
-const shouldThrow = curry(
+export const shouldThrow = curry(
   (func, val, err) => {
     it(`should throw an ${err} error`, () => {
       expect(invoke(func, val)).to.throw(err)
@@ -112,7 +112,7 @@ const shouldThrow = curry(
  * @param  {*}        val   arg to invoke function with
  * @return {undefined}
  */
-const shouldNotThrow = curry(
+export const shouldNotThrow = curry(
   (func, val) => {
     it(`should not throw an error`, () => {
       expect(invoke(func, val)).to.not.throw()
