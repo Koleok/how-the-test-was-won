@@ -71,6 +71,55 @@ const shouldBeFalseyFamily = curry(
   }
 )
 
+/**
+ * Returns a function that return the result of invoking the given function
+ * with the given value
+ *
+ * @param  {Function} func  function to invoke`
+ * @param  {*}        val   value to invoke the function with
+ * @return {Function}
+ */
+const invoke = (func, val) => () => func(val);
+
+/**
+ * Curryable function to check whether a function given a certain value
+ * will throw a certain error.
+ *
+ * Can be partially applied in order to check multiple error types
+ * or multiple arguments with a more concise syntax
+ *
+ * @param  {Function} func  function to invoke
+ * @param  {*}        val   arg to invoke function with
+ * @param  {Error}    err   error type like 'RefereceError' or 'TypeError'
+ * @return {undefined}
+ */
+const shouldThrow = curry(
+  (func, val, err) => {
+    it(`should throw an ${err} error`, () => {
+      expect(invoke(func, val)).to.throw(err)
+    });
+  }
+)
+
+/**
+ * Curryable function to check whether a function given a certain value
+ * will NOT throw a certain error.
+ *
+ * Can be partially applied in order to check multiple error types
+ * or multiple arguments with a more concise syntax
+ *
+ * @param  {Function} func  function to invoke
+ * @param  {*}        val   arg to invoke function with
+ * @return {undefined}
+ */
+const shouldNotThrow = curry(
+  (func, val) => {
+    it(`should not throw an error`, () => {
+      expect(invoke(func, val)).to.not.throw()
+    });
+  }
+)
+
 export const shouldBeAnObject = shouldBeA('object')
 export const shouldBeAnArray = shouldBeA('array')
 export const shouldBeABoolean = shouldBeA('boolean')
