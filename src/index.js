@@ -4,16 +4,31 @@ import asPromised from 'chai-as-promised'
 chai.use(asPromised)
 
 /**
- * Curryable function to check primitive equality
+ * Curryable function to check primitive type equality
  *
  * @param  {String} type  primitive type to check for
  * @param  {*}      val   value of any type
  * @return {undefined}
  */
-const primitiveEquals = curry(
+const shouldBeA = curry(
   (type, val) => {
     it(`should be an ${type}`, () => {
       expect(val).to.be.an(type)
+    })
+  }
+)
+
+/**
+ * Curryable function to check equality against any value
+ *
+ * @param  {*}  testVal value to check against
+ * @param  {*}  val     value to check
+ * @return {undefined}
+ */
+const shouldEqual = curry(
+  (testVal, val) => {
+    it(`should equal ${testVal}`, () => {
+      expect(val).to.equal(testVal)
     })
   }
 )
@@ -25,12 +40,11 @@ const primitiveEquals = curry(
  * @param  {*}        value under test
  * @return {undefined}
  */
-const shouldNotBe = curry(
+const shouldNotBeFalseyFamily = curry(
   (falseyType, isPromise, val) => {
     it(`should not be ${falseyType}`, () => {
       if (isPromise) {
         expect(val).to.eventually.not.be[falseyType]
-
       } else {
         expect(val).to.not.be[falseyType]
       }
@@ -38,21 +52,46 @@ const shouldNotBe = curry(
   }
 )
 
-export const shouldBeAnObject = primitiveEquals('object')
-export const shouldBeAnArray = primitiveEquals('array')
-export const shouldBeABoolean = primitiveEquals('boolean')
-export const shouldBeAString = primitiveEquals('string')
-export const shouldBeANumber = primitiveEquals('number')
-export const shouldBeAnError = primitiveEquals('error')
-export const shouldBeAFunction = primitiveEquals('function')
+/**
+ * Curryable function to check that val is of a given falsey type
+ *
+ * @param  {String}   falseyType  a supported mocha functinon of `not.be...`
+ * @param  {*}        value under test
+ * @return {undefined}
+ */
+const shouldBeFalseyFamily = curry(
+  (falseyType, isPromise, val) => {
+    it(`should not be ${falseyType}`, () => {
+      if (isPromise) {
+        expect(val).to.eventually.be[falseyType]
+      } else {
+        expect(val).to.be[falseyType]
+      }
+    })
+  }
+)
 
-export const shouldNotBeUndefined = shouldNotBe('undefined', false)
-export const shouldNotBeNull = shouldNotBe('null', false)
-export const shouldNotBeEmpty = shouldNotBe('empty', false)
+export const shouldBeAnObject = shouldBeA('object')
+export const shouldBeAnArray = shouldBeA('array')
+export const shouldBeABoolean = shouldBeA('boolean')
+export const shouldBeAString = shouldBeA('string')
+export const shouldBeANumber = shouldBeA('number')
+export const shouldBeAnError = shouldBeA('error')
+export const shouldBeAFunction = shouldBeA('function')
 
-export const shouldNotBeUndefinedAsync = shouldNotBe('undefined', true)
-export const shouldNotBeNullAsync = shouldNotBe('null', true)
-export const shouldNotBeEmptyAsync = shouldNotBe('empty', true)
+export const shouldNotBeUndefined = shouldNotBeFalseyFamily('undefined', false)
+export const shouldNotBeNull = shouldNotBeFalseyFamily('null', false)
+export const shouldNotBeEmpty = shouldNotBeFalseyFamily('empty', false)
+export const shouldBeUndefined = shouldBeFalseyFamily('undefined', false)
+export const shouldBeNull = shouldBeFalseyFamily('null', false)
+export const shouldBeEmpty = shouldBeFalseyFamily('empty', false)
+
+export const shouldNotBeUndefinedAsync = shouldNotBeFalseyFamily('undefined', true)
+export const shouldNotBeNullAsync = shouldNotBeFalseyFamily('null', true)
+export const shouldNotBeEmptyAsync = shouldNotBeFalseyFamily('empty', true)
+export const shouldBeUndefinedAsync = shouldBeFalseyFamily('undefined', true)
+export const shouldBeNullAsync = shouldBeFalseyFamily('null', true)
+export const shouldBeEmptyAsync = shouldBeFalseyFamily('empty', true)
 
 /**
  * Creates a test with assertions to check for null, undefined, and empty values
@@ -62,15 +101,15 @@ export const shouldNotBeEmptyAsync = shouldNotBe('empty', true)
  * @return {undefined}
  */
 export function testIfExists(val, async) {
-    if (async) {
-      shouldNotBeNullAsync(val)
-      shouldNotBeUndefinedAsync(val)
-      shouldNotBeEmptyAsync(val)
-    } else {
-      shouldNotBeNull(val)
-      shouldNotBeUndefined(val)
-      shouldNotBeEmpty(val)
-    }
+  if (async) {
+    shouldNotBeNullAsync(val)
+    shouldNotBeUndefinedAsync(val)
+    shouldNotBeEmptyAsync(val)
+  } else {
+    shouldNotBeNull(val)
+    shouldNotBeUndefined(val)
+    shouldNotBeEmpty(val)
+  }
 }
 
 /**
