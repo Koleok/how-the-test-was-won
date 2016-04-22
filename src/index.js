@@ -61,7 +61,7 @@ const shouldNotBeFalseyFamily = curry(
  */
 const shouldBeFalseyFamily = curry(
   (falseyType, isPromise, val) => {
-    it(`should not be ${falseyType}`, () => {
+    it(`should be ${falseyType}`, () => {
       if (isPromise) {
         expect(val).to.eventually.be[falseyType]
       } else {
