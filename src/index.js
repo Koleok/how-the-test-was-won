@@ -162,6 +162,22 @@ export function testIfExists(val, async) {
 }
 
 /**
+ * Curryable function to check that an object has a specific key, or a given list
+ * of keys
+ *
+ * @param  {String / Array} key accepts a string or array of strings/objects
+ * @param  {Object}         obj checks for existence / equality of the given keys
+ * @return {undefined}
+ */
+export const shouldHaveKey = curry(
+  (key, obj) => {
+    it(`should have a ${key} key`, () => {
+      expect(obj).to.contain.all.keys(key)
+    })
+  }
+)
+
+/**
  * Used to express groups of tests as arrays when a number of similar test cases
  * are being written
  *
