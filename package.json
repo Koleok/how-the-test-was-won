@@ -1,7 +1,7 @@
 {
   "name": "how-the-test-was-won",
   "author": "Kyle Chamberlain",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "license": "ISC",
   "description": "A pleasant library full of time-saving mocha wrappers and test utilities",
   "main": "lib/index.js",
