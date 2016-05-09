@@ -170,7 +170,7 @@ export function testIfExists(val, async) {
  * @return {undefined}
  */
 export const shouldHaveKey = curry(
-  (key, obj) => {
+  (obj, key) => {
     it(`should have a ${key} key`, () => {
       expect(obj).to.contain.all.keys(key)
     })
