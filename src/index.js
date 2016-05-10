@@ -203,6 +203,6 @@ export function runCase(func, [description, testVal, expected]) {
  *                          [description, testVal, expected]
  * @return {undefined}
  */
-export function testCases(func, cases) {
-  cases.forEach(runCase(func));
+export function testCases(func, ...cases) {
+  cases.forEach(testCase => runCase(func, testCase));
 }
