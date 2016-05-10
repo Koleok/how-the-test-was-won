@@ -204,5 +204,5 @@ export function runCase(func, [description, testVal, expected]) {
  * @return {undefined}
  */
 export function testCases(func, ...cases) {
-  cases.forEach(testCase => runCase(func, testCase));
+  cases.forEach(testCase => runCase(func, testCase))
 }
