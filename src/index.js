@@ -169,13 +169,13 @@ export function testIfExists(val, async) {
  * @param  {Object}         obj checks for existence / equality of the given keys
  * @return {undefined}
  */
-export const shouldHaveKey = curry(
-  (obj, key) => {
+export const shouldHaveKeys = (obj, ...keys) => {
+  keys.forEach(key => {
     it(`should have a ${key} key`, () => {
       expect(obj).to.contain.all.keys(key)
-    })
-  }
-)
+    });
+  })
+};
 
 /**
  * Used to express groups of tests as arrays when a number of similar test cases
