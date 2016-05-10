@@ -169,23 +169,22 @@ export function testIfExists(val, async) {
  * @param  {Object}         obj checks for existence / equality of the given keys
  * @return {undefined}
  */
-export const shouldHaveKeys = (obj, ...keys) => {
+export function shouldHaveKeys(obj, ...keys) {
   keys.forEach(key => {
     it(`should have a ${key} key`, () => {
       expect(obj).to.contain.all.keys(key)
-    });
+    })
   })
-};
+}
 
 /**
- * Used to express groups of tests as arrays when a number of similar test cases
- * are being written
+ * Runs a test case derived from three primitive values
  *
- * @param  {Array}    [description, testVal, expected]  destuctured respectively
  * @param  {Function} func                              function under test
+ * @param  {Array}    [description, testVal, expected]  destuctured respectively
  * @return {undefined}
  */
-export function testSet([description, testVal, expected], func) {
+export function runCase(func, [description, testVal, expected]) {
   describe(description, () => {
     const result = func(testVal)
 
@@ -193,4 +192,17 @@ export function testSet([description, testVal, expected], func) {
       expect(result).to.equal(expected)
     })
   })
+}
+
+/**
+ * Used to express groups of tests as arrays when a number of similar test cases
+ * are being written
+ *
+ * @param  {Function} func  function under test
+ * @param  {Array}    cases set of three element tuples strucutred like
+ *                          [description, testVal, expected]
+ * @return {undefined}
+ */
+export function testCases(func, cases) {
+  cases.forEach(runCase(func));
 }
