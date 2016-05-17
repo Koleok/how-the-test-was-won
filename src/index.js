@@ -19,21 +19,6 @@ const shouldBeA = curry(
 )
 
 /**
- * Curryable function to check equality against any value
- *
- * @param  {*}  testVal value to check against
- * @param  {*}  val     value to check
- * @return {undefined}
- */
-const shouldEqual = curry(
-  (testVal, val) => {
-    it(`should equal ${testVal}`, () => {
-      expect(val).to.equal(testVal)
-    })
-  }
-)
-
-/**
  * Curryable function to check that val is not of a given falsey type
  *
  * @param  {String}   falseyType  a supported mocha functinon of `not.be...`
@@ -119,6 +104,24 @@ export const shouldNotThrow = curry(
     });
   }
 )
+
+/**
+* Curryable function to check equality against any value
+*
+* @param  {*}  testVal value to check against
+* @param  {*}  val     value to check
+* @return {undefined}
+*/
+export const shouldEqual = curry(
+  (testVal, val) => {
+    it(`should equal ${testVal}`, () => {
+      expect(val).to.equal(testVal)
+    })
+  }
+)
+
+export const shouldBeTrue = shouldEqual(true);
+export const shouldBeFalse = shouldEqual(false);
 
 export const shouldBeAnObject = shouldBeA('object')
 export const shouldBeAnArray = shouldBeA('array')
