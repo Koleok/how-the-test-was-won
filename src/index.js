@@ -19,21 +19,6 @@ const shouldBeA = curry(
 )
 
 /**
- * Curryable function to check equality against any value
- *
- * @param  {*}  testVal value to check against
- * @param  {*}  val     value to check
- * @return {undefined}
- */
-const shouldEqual = curry(
-  (testVal, val) => {
-    it(`should equal ${testVal}`, () => {
-      expect(val).to.equal(testVal)
-    })
-  }
-)
-
-/**
  * Curryable function to check that val is not of a given falsey type
  *
  * @param  {String}   falseyType  a supported mocha functinon of `not.be...`
@@ -120,27 +105,46 @@ export const shouldNotThrow = curry(
   }
 )
 
-export const shouldBeAnObject = shouldBeA('object')
-export const shouldBeAnArray = shouldBeA('array')
+/**
+* Curryable function to check equality against any value
+*
+* @param  {*}  testVal value to check against
+* @param  {*}  val     value to check
+* @return {undefined}
+*/
+export const shouldEqual = curry(
+  (testVal, val) => {
+    it(`should equal ${testVal}`, () => {
+      expect(val).to.equal(testVal)
+    })
+  }
+)
+
+export const shouldBeTrue = shouldEqual(true);
+export const shouldBeFalse = shouldEqual(false);
+
 export const shouldBeABoolean = shouldBeA('boolean')
-export const shouldBeAString = shouldBeA('string')
-export const shouldBeANumber = shouldBeA('number')
-export const shouldBeAnError = shouldBeA('error')
+export const shouldBeADate = shouldBeA('date')
 export const shouldBeAFunction = shouldBeA('function')
+export const shouldBeAnArray = shouldBeA('array')
+export const shouldBeAnError = shouldBeA('error')
+export const shouldBeAnObject = shouldBeA('object')
+export const shouldBeANumber = shouldBeA('number')
+export const shouldBeAString = shouldBeA('string')
 
-export const shouldNotBeUndefined = shouldNotBeFalseyFamily('undefined', false)
-export const shouldNotBeNull = shouldNotBeFalseyFamily('null', false)
-export const shouldNotBeEmpty = shouldNotBeFalseyFamily('empty', false)
-export const shouldBeUndefined = shouldBeFalseyFamily('undefined', false)
-export const shouldBeNull = shouldBeFalseyFamily('null', false)
 export const shouldBeEmpty = shouldBeFalseyFamily('empty', false)
+export const shouldBeNull = shouldBeFalseyFamily('null', false)
+export const shouldBeUndefined = shouldBeFalseyFamily('undefined', false)
+export const shouldNotBeEmpty = shouldNotBeFalseyFamily('empty', false)
+export const shouldNotBeNull = shouldNotBeFalseyFamily('null', false)
+export const shouldNotBeUndefined = shouldNotBeFalseyFamily('undefined', false)
 
-export const shouldNotBeUndefinedAsync = shouldNotBeFalseyFamily('undefined', true)
-export const shouldNotBeNullAsync = shouldNotBeFalseyFamily('null', true)
-export const shouldNotBeEmptyAsync = shouldNotBeFalseyFamily('empty', true)
-export const shouldBeUndefinedAsync = shouldBeFalseyFamily('undefined', true)
-export const shouldBeNullAsync = shouldBeFalseyFamily('null', true)
 export const shouldBeEmptyAsync = shouldBeFalseyFamily('empty', true)
+export const shouldBeNullAsync = shouldBeFalseyFamily('null', true)
+export const shouldBeUndefinedAsync = shouldBeFalseyFamily('undefined', true)
+export const shouldNotBeEmptyAsync = shouldNotBeFalseyFamily('empty', true)
+export const shouldNotBeNullAsync = shouldNotBeFalseyFamily('null', true)
+export const shouldNotBeUndefinedAsync = shouldNotBeFalseyFamily('undefined', true)
 
 /**
  * Creates a test with assertions to check for null, undefined, and empty values
